@@ -41,11 +41,43 @@ fatorial(E,F) :-
     fatorial(EMenosUm,FatorialEMenosUm),
     F is E*FatorialEMenosUm.
 
-
 % retorna N-esimo elemento de uma lista
 elemento([C|_],1,C).
 elemento([_|R],N,E) :-
     NMenos1 is N-1,
     elemento(R,NMenos1,E).
-    
 
+% retorna a quantidade de elementos em uma lista    
+nroElementos([_|R],Numero) :-
+    nroElementos(R,NumeroMenos1),
+    Numero is NumeroMenos1 + 1.
+nroElementos([],0).
+
+% retorna o maior elemento de uma lista
+maior([E],E) :- !.
+maior([C|R],C) :-
+    maior(R,MaiorDoResto),
+    C > MaiorDoResto, !.
+maior([_|R],MaiorDoResto) :-
+    maior(R,MaiorDoResto).
+
+% retorna o numero de ocorrencias de um elemento em uma lista
+nroOcorrencias([],_,0) :- !.
+nroOcorrencias([C|R],C,N) :-
+    !, nroOcorrencias(R,C,NMenos1),
+    N is NMenos1 + 1.
+nroOcorrencias([_|R],E,N) :-
+    nroOcorrencias(R,E,N).
+
+% verifica se há uma unica ocorrencia de um elemento em uma lista
+unicaOcorrencia([E|R],E) :-
+ !, not(unicaOcorrencia(R,E)).
+unicaOcorrencia([_|R],E) :-
+    unicaOcorrencia(R,E).
+
+maioresQue([], _, []).
+maioresQue([C|R],Elemento,[C|Maiores]) :- 
+    C > Elemento, !,
+    maioresQue(R,Elemento,Maiores).
+maioresQue([_|R],Elemento,Maiores) :-
+    maioresQue(R,Elemento,Maiores).
